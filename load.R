@@ -2,6 +2,7 @@ library(tidyverse)
 library(jsonlite)
 library(rvest)
 
+# TODO: switch to nested folder?
 order_tables_raw <- fs::dir_ls("../data/oic-data/order-tables/", glob = "*.json") %>%
   map_dfr(read_json, .id = "source_file") %>%
   unnest(attachments) %>%
