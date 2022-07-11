@@ -1,6 +1,7 @@
 library(tidyverse)
 library(jsonlite)
 library(rvest)
+library(janitor)
 
 oic_data_folder <- "../data/oic-data/"
 
@@ -13,6 +14,8 @@ order_tables_raw <- tibble(source_file = fs::dir_ls(paste0(oic_data_folder, "ord
 
 orders <- order_tables_raw %>%
   select(pcNumber, htmlHash, attachments, html) %>%
+  clean_names %>%
+  separate(pc_number, into = c("year", "number"), convert = TRUE, remove = FALSE) %>%
   mutate(html_parsed = map(html, read_html)) %>%
   mutate(text = map_chr(html_parsed, html_text2))
   
