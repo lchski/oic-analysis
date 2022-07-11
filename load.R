@@ -19,3 +19,13 @@ orders <- order_tables_raw %>%
   mutate(html_parsed = map(html, read_html)) %>%
   mutate(text = map_chr(html_parsed, html_text2))
   
+attachments_raw <- fs::dir_ls(paste0(oic_data_folder, "attachments/"), glob = "*.json") %>%
+  map_dfr(read_json, .id = "source_file")
+
+attachments <- attachments_raw %>%
+  clean_names %>%
+  type_convert %>%
+  rename(html = attachment_html) %>%
+  mutate(html = paste0("<main>", html, "</main>")) %>% # because we save the innerHTML, oops
+  mutate(html_parsed = map(html, read_html)) %>%
+  mutate(text = map_chr(html_parsed, html_text2))
