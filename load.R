@@ -25,6 +25,7 @@ attachments_raw <- fs::dir_ls(paste0(oic_data_folder, "attachments/"), glob = "*
 attachments <- attachments_raw %>%
   clean_names %>%
   type_convert %>%
+  arrange(id) %>%
   rename(html = attachment_html) %>%
   mutate(html = paste0("<main>", html, "</main>")) %>% # because we save the innerHTML, oops
   mutate(html_parsed = map(html, read_html)) %>%
