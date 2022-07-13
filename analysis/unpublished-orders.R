@@ -10,6 +10,10 @@
 # operations or those containing personal or commercially-sensitive information.”).
 # But others are likely just scraping error (see lchski/oic-data#2)—this could help
 # detect them, and arrange for a boutique scrape to round out the set.
+#
+# For more context on unpublished orders, some coverage in recent years:
+# - https://ipolitics.ca/news/two-dozen-secret-cabinet-decisions-hidden-from-parliament-canadians
+# - https://www.cbc.ca/news/politics/secret-orders-in-council-1.6467450
 
 missing_oics_per_year <- function(otc, ytc) {
   setdiff(
