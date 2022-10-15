@@ -15,15 +15,28 @@
 # - https://ipolitics.ca/news/two-dozen-secret-cabinet-decisions-hidden-from-parliament-canadians
 # - https://www.cbc.ca/news/politics/secret-orders-in-council-1.6467450
 
-missing_oics_per_year <- function(otc, ytc) {
+identify_missing_oics_per_year <- function(otc, ytc) {
   setdiff(
     1:max(otc %>% filter(year == ytc) %>% pull(number)),
     otc %>% filter(year == ytc) %>% pull(number)
   )
 }
 
-tibble(year = 1990:2022) %>%
+missing_oics_by_year <- tibble(year = 1990:2022) %>%
   mutate(
-    missing_oics = map(year, ~ orders %>% missing_oics_per_year(.x)),
+    missing_oics = map(year, ~ orders %>% identify_missing_oics_per_year(.x)),
     n_missing_oics = map_int(missing_oics, length)
   )
+
+missing_oics_by_year %>%
+  ggplot(aes(x = year, y = n_missing_oics)) +
+  geom_point()
+
+missing_oic_pc_numbers <- missing_oics_by_year %>%
+  unnest_longer(missing_oics) %>%
+  select(year, number = missing_oics) %>%
+  mutate(pc_number = paste0(year, "-", str_pad(number, width = 4, side = "left", pad = "0"))) %>%
+  select(pc_number)
+
+missing_oic_pc_numbers %>%
+  write_csv("data/out/missing-oic-pc-numbers.csv")
