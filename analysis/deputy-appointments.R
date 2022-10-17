@@ -44,6 +44,7 @@ deputy_appointment_orders %>%
     act,
     precis
   ) %>%
+  mutate(attachments = map_chr(attachments, paste, collapse = ";")) %>%
   write_csv("data/out/deputy-head-analysis/deputy-appointment-orders.csv")
 
 salary_orders %>%
@@ -55,6 +56,7 @@ salary_orders %>%
     act,
     precis
   ) %>%
+  mutate(attachments = map_chr(attachments, paste, collapse = ";")) %>%
   write_csv("data/out/deputy-head-analysis/salary-orders.csv")
 
 deputy_appointment_order_attachments %>%
