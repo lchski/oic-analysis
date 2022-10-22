@@ -24,7 +24,8 @@ salary_orders <- bind_rows(
   orders %>%
     filter(str_detect(precis, regex("^Salary Order", ignore_case = TRUE))),
   orders %>%
-    filter(str_detect(precis, regex("fix(ing)?( of)? the (salary|remuneration payable)", ignore_case = TRUE)))
+    filter(str_detect(precis, regex("fix(ing)?( of)? the (salary|remuneration payable)", ignore_case = TRUE))) %>%
+    filter(str_detect(precis, "Governor in Council"))
 ) %>%
   distinct()
 
