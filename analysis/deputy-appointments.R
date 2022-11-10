@@ -7,7 +7,7 @@ deputy_appointment_orders <- bind_rows(
   orders %>%
     filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
     filter(str_detect(text, coll("during pleasure", ignore_case = TRUE))) %>%
-    filter(str_detect(text, regex("secretary", ignore_case = TRUE)))
+    filter(str_detect(text, regex("secretary|Chief Human Resources Officer|Chief Information Officer|Comptroller General of Canada", ignore_case = TRUE)))
 ) %>%
   distinct()
 
