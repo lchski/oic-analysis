@@ -1,13 +1,46 @@
 deputy_appointment_orders <- bind_rows(
   orders %>%
     filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
-    filter(str_detect(text, coll("during pleasure", ignore_case = TRUE))) %>%
+    # filter(str_detect(text, coll("during pleasure", ignore_case = TRUE))) %>%
     filter(str_detect(text, regex("deputy|associate", ignore_case = TRUE))) %>%
     filter(str_detect(text, regex("minister|secretary", ignore_case = TRUE))),
   orders %>%
     filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
-    filter(str_detect(text, coll("during pleasure", ignore_case = TRUE))) %>%
-    filter(str_detect(text, regex("secretary|Chief Human Resources Officer|Chief Information Officer|Comptroller General of Canada", ignore_case = TRUE)))
+    # filter(str_detect(text, coll("during pleasure", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("secretary|Chief Human Resources Officer|Chief Information Officer|Comptroller General of Canada", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("president", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("agency|shared services|school of public service", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(act, coll("Public Service Employment Act", ignore_case = TRUE))) %>%
+    filter(! str_detect(precis, regex("^Special Appointment Regulations|good behaviour|part-? ?time", ignore_case = TRUE))) %>%
+    filter(! str_detect(precis, regex("Order excluding|decision to exclude", ignore_case = TRUE))) %>%
+    filter(is.na(registration_type)),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("commissioner", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("revenue|customs|correction|coast", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("director", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("service|centre", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("intelligence|analysis", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, coll("senior advisor", ignore_case = TRUE))) %>%
+    filter(str_detect(text, coll("privy council office", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("chief", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("statistician", ignore_case = TRUE))),
+  orders %>%
+    filter(str_detect(text, coll("appointment", ignore_case = TRUE))) %>%
+    filter(str_detect(text, regex("executive director", ignore_case = TRUE))) %>%
+    filter(is.na(registration_type)),
+  orders %>%
+    filter(str_detect(act, regex("^Special Appointment Regulaitons")))
 ) %>%
   distinct()
 
